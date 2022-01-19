@@ -396,6 +396,11 @@ class ETL(object):
                 Value to prepend new columns if ``prepend=True``. If None, will
                 set to column name.
         """
+        if column not in self.table.columns():
+            return self
+            # Alternatively, raising an error here cleans up the stack trace
+
+            # raise ValueError(f'Column name \'{column}\' not found')
 
         if prepend:
             if prepend_value is None:

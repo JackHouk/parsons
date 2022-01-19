@@ -96,6 +96,17 @@ class TestSignups(unittest.TestCase):
 
         self.assertTrue(validate_list(signup_expected,
                                       self.van.get_person_signups(vanid=750000849)))
+        
+        # Test case where no signups are found
+        json = {'items': [], 'nextPageLink': None, 'count': 1}
+
+        m.get(self.van.connection.uri + 'signups', json=json)
+        
+        self.assertTrue(validate_list([],
+                                      self.van.get_event_signups(event_id=750001004)))
+
+        self.assertTrue(validate_list([],
+                                      self.van.get_person_signups(vanid=750000849)))
 
     @requests_mock.Mocker()
     def test_get_signup(self, m):
